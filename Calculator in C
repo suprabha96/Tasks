@@ -1,0 +1,94 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+int add(int a, int b);
+int subtract(int a, int b);
+int multiply(int a, int b);
+int divide(int a, int b);
+int modulus(int a, int b);
+
+int main() {
+    int choice, num1, num2, result;
+    char cont;
+
+    do {
+        // Display menu
+        printf("\n===== Simple Calculator =====\n");
+        printf("1. Addition\n");
+        printf("2. Subtraction\n");
+        printf("3. Multiplication\n");
+        printf("4. Division\n");
+        printf("5. Modulus\n");
+        printf("6. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        // Exit condition
+        if (choice == 6) {
+            printf("Exiting program...\n");
+            break;
+        }
+
+        // Take inputs
+        printf("Enter two numbers: ");
+        scanf("%d %d", &num1, &num2);
+
+        // Perform operation
+        switch (choice) {
+            case 1:
+                result = add(num1, num2);
+                printf("Result: %d\n", result);
+                break;
+            case 2:
+                result = subtract(num1, num2);
+                printf("Result: %d\n", result);
+                break;
+            case 3:
+                result = multiply(num1, num2);
+                printf("Result: %d\n", result);
+                break;
+            case 4:
+                if (num2 == 0) {
+                    printf("Error: Division by zero is not allowed.\n");
+                } else {
+                    result = divide(num1, num2);
+                    printf("Result: %d\n", result);
+                }
+                break;
+            case 5:
+                if (num2 == 0) {
+                    printf("Error: Modulus by zero is not allowed.\n");
+                } else {
+                    result = modulus(num1, num2);
+                    printf("Result: %d\n", result);
+                }
+                break;
+            default:
+                printf("Invalid choice. Please try again.\n");
+        }
+
+        // Ask to continue
+        printf("\nDo you want to continue? (y/n): ");
+        scanf(" %c", &cont);
+
+    } while (cont == 'y' || cont == 'Y');
+
+    return 0;
+}
+
+// Function definitions
+int add(int a, int b) {
+    return a + b;
+}
+int subtract(int a, int b) {
+    return a - b;
+}
+int multiply(int a, int b) {
+    return a * b;
+}
+int divide(int a, int b) {
+    return a / b;  // Safe since we already check divide by zero
+}
+int modulus(int a, int b) {
+    return a % b;  // Safe since we already check modulus by zero
+}
