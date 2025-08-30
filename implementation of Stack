@@ -1,0 +1,166 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// ================= STACK USING ARRAY =================
+int *stackArray;
+int top = -1, capacity;
+
+void initArrayStack(int cap) {
+    capacity = cap;
+    stackArray = (int*) malloc(capacity * sizeof(int));
+    top = -1;
+}
+
+int isArrayFull() {
+    return top == capacity - 1;
+}
+
+int isArrayEmpty() {
+    return top == -1;
+}
+
+void pushArray(int value) {
+    if (isArrayFull()) {
+        printf("Error: Stack Overflow (Array)\n");
+        return;
+    }
+    stackArray[++top] = value;
+    printf("%d pushed to stack (Array)\n", value);
+}
+
+void popArray() {
+    if (isArrayEmpty()) {
+        printf("Error: Stack Underflow (Array)\n");
+        return;
+    }
+    printf("%d popped from stack (Array)\n", stackArray[top--]);
+}
+
+void peekArray() {
+    if (isArrayEmpty()) {
+        printf("Stack is empty (Array)\n");
+        return;
+    }
+    printf("Top element (Array): %d\n", stackArray[top]);
+}
+
+void displayArray() {
+    if (isArrayEmpty()) {
+        printf("Stack is empty (Array)\n");
+        return;
+    }
+    printf("Stack (Array): ");
+    for (int i = top; i >= 0; i--) {
+        printf("%d ", stackArray[i]);
+    }
+    printf("\n");
+}
+
+// ================= STACK USING LINKED LIST =================
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+struct Node* topLL = NULL;
+
+int isLLEmpty() {
+    return topLL == NULL;
+}
+
+void pushLL(int value) {
+    struct Node* newNode = (struct Node*) malloc(sizeof(struct Node));
+    newNode->data = value;
+    newNode->next = topLL;
+    topLL = newNode;
+    printf("%d pushed to stack (Linked List)\n", value);
+}
+
+void popLL() {
+    if (isLLEmpty()) {
+        printf("Error: Stack Underflow (Linked List)\n");
+        return;
+    }
+    struct Node* temp = topLL;
+    printf("%d popped from stack (Linked List)\n", temp->data);
+    topLL = topLL->next;
+    free(temp);
+}
+
+void peekLL() {
+    if (isLLEmpty()) {
+        printf("Stack is empty (Linked List)\n");
+        return;
+    }
+    printf("Top element (Linked List): %d\n", topLL->data);
+}
+
+void displayLL() {
+    if (isLLEmpty()) {
+        printf("Stack is empty (Linked List)\n");
+        return;
+    }
+    printf("Stack (Linked List): ");
+    struct Node* temp = topLL;
+    while (temp != NULL) {
+        printf("%d ", temp->data);
+        temp = temp->next;
+    }
+    printf("\n");
+}
+
+// ================= MAIN MENU =================
+int main() {
+    int choice, subChoice, value, cap;
+
+    printf("Set capacity for Array-based Stack: ");
+    scanf("%d", &cap);
+    initArrayStack(cap);
+
+    while (1) {
+        printf("\n===== Stack Implementation Menu =====\n");
+        printf("1. Use Array Stack\n");
+        printf("2. Use Linked List Stack\n");
+        printf("3. Exit\n");
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        if (choice == 3) break;
+
+        switch (choice) {
+            case 1:
+                printf("\n--- Array Stack Operations ---\n");
+                printf("1. Push\n2. Pop\n3. Peek\n4. Display\n5. Back to Main Menu\n");
+                scanf("%d", &subChoice);
+                switch (subChoice) {
+                    case 1: printf("Enter value: "); scanf("%d", &value); pushArray(value); break;
+                    case 2: popArray(); break;
+                    case 3: peekArray(); break;
+                    case 4: displayArray(); break;
+                    case 5: break;
+                    default: printf("Invalid choice\n");
+                }
+                break;
+
+            case 2:
+                printf("\n--- Linked List Stack Operations ---\n");
+                printf("1. Push\n2. Pop\n3. Peek\n4. Display\n5. Back to Main Menu\n");
+                scanf("%d", &subChoice);
+                switch (subChoice) {
+                    case 1: printf("Enter value: "); scanf("%d", &value); pushLL(value); break;
+                    case 2: popLL(); break;
+                    case 3: peekLL(); break;
+                    case 4: displayLL(); break;
+                    case 5: break;
+                    default: printf("Invalid choice\n");
+                }
+                break;
+
+            default:
+                printf("Invalid choice!\n");
+        }
+    }
+
+    free(stackArray); // Free allocated memory
+    return 0;
+}
